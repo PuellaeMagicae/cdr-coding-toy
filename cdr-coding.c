@@ -131,11 +131,11 @@ zsi_listn (zsi_ref *argv, size_t argc)
   zsi_ref *val = malloc (list_len * sizeof (zsi_ref));
   zsi_bits bits = (zsi_bits) val;
 
-  for (size_t i = 0; i < argc; i++) {
+  for (size_t i = 0; i < argc - 1; i++) {
     zsi_bits bits = ZSI_UNPACK (argv[i]) | CDR_CODING_BIT;
-
     val[i] = ZSI_PACK (bits);
   }
+  val[argc - 1] = argv[argc - 1];
 
   val[argc] = ZSI_EOL;
 
@@ -183,11 +183,11 @@ zsi_iota_cdr_coding (size_t count, int start)
 {
   zsi_ref *nums = (zsi_ref *) malloc (sizeof (zsi_ref) * (1 + count));
 
-  for (size_t i = 0; i < count; i++) {
-    zsi_bits bits = ZSI_UNPACK (ZSI_MAKE_FIXNUM (start + i));
-    bits += 0x1;
+  for (size_t i = 0; i < count - 1; i++) {
+    zsi_bits bits = ZSI_UNPACK (ZSI_MAKE_FIXNUM (start + i)) | CDR_CODING_BIT;
     nums[i] = ZSI_PACK (bits);
   }
+  nums[count - 1] = ZSI_MAKE_FIXNUM (start + count - 1);
 
   nums[count] = ZSI_EOL;
   return ZSI_PACK ((zsi_bits) nums);
