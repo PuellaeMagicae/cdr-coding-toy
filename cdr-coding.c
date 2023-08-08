@@ -58,11 +58,20 @@ zsi_cdr (zsi_ref cons)
   zsi_bits bits = ZSI_UNPACK (cons);
   zsi_pair *p = (zsi_pair *) (bits);
 
-  if ((ZSI_UNPACK (p->car) & 0x1) & (ZSI_UNPACK (p->cdrs[0]) & 0x1)) {
+  if (ZSI_UNPACK (p->car) & 0x1) {
     return ZSI_PACK ((zsi_bits) p->cdrs);
   } else {
     return p->cdrs[0];
   }
+}
+
+zsi_ref
+zsi_cdr_nocode (zsi_ref cons)
+{
+  zsi_bits bits = ZSI_UNPACK (cons);
+  zsi_pair *p = (zsi_pair *) (bits);
+
+  return p->cdrs[0];
 }
 
 zsi_ref
@@ -137,6 +146,13 @@ zsi_ref
 zsi_nthcdr (zsi_ref list, size_t num)
 {
   for (size_t i = 0; i < num; list = zsi_cdr (list), i++);
+  return list;
+}
+
+zsi_ref
+zsi_nthcdr_nocode (zsi_ref list, size_t num)
+{
+  for (size_t i = 0; i < num; list = zsi_cdr_nocode (list), i++);
   return list;
 }
 

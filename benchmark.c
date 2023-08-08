@@ -41,7 +41,7 @@ UBENCH_EX(cdr_coding_test, normal_compacted_nthcdr) {
 
   UBENCH_DO_BENCHMARK() {
     for (size_t i = 5000; i < 5100; i++) {
-      temp = zsi_nthcdr (big_cons, i);
+      temp = zsi_nthcdr_nocode (big_cons, i);
       /* zsi_debug_println (zsi_nthcdr (big_cons, i)); */
     }
   }
@@ -52,7 +52,7 @@ UBENCH_EX(cdr_coding_test, normal_nthcdr) {
 
   UBENCH_DO_BENCHMARK() {
     for (size_t i = 5000; i < 5100; i++) {
-      temp = zsi_nthcdr (big_cons, i);
+      temp = zsi_nthcdr_nocode (big_cons, i);
       /* zsi_debug_println (zsi_nthcdr (big_cons, i)); */
     }
   }
